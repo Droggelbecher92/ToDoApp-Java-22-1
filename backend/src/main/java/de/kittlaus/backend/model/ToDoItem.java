@@ -1,5 +1,8 @@
 package de.kittlaus.backend.model;
 
+import java.time.Duration;
+import java.time.Instant;
+import java.util.Date;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -8,8 +11,13 @@ public class ToDoItem {
     private final String id;
     private String text;
     private Status status;
+    private Date start;
+    private Date end;
 
     public ToDoItem(String text) {
+        Instant now = Instant.now();
+        start = Date.from(now);
+        end = Date.from(now.plus(Duration.ofDays(7)));
         id = UUID.randomUUID().toString();
         this.text = text;
         status = Status.OPEN;
