@@ -41,26 +41,26 @@ jobs:
         run: mvn -B package --file backend/pom.xml
       - uses: actions/upload-artifact@v2
         with:
-          name: template.jar #Must be the same as 'finalName' in pom.xml
-          path: backend/target/template.jar
+          name: todoApp.jar #Must be the same as 'finalName' in pom.xml
+          path: backend/target/todoApp.jar
 
   deploy-heroku:
     runs-on: ubuntu-latest
     needs: build-backend
     environment: #optional, zeigt 'nur' den Link im Repo an
-      name: template-heroku
-      url: https://kevinowens.herokuapp.com/ #change to your App-URL provided by heroku
+      name: todo-heroku
+      url: https://todo-java-22-1.herokuapp.com/ #change to your App-URL provided by heroku
     env:
       HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
     steps:
       - uses: actions/checkout@v2
       - uses: actions/download-artifact@v2
         with:
-          name: template.jar  #Must be the same as 'finalName' in pom.xml
+          name: todoApp.jar  #Must be the same as 'finalName' in pom.xml
           path: backend/target
       - name: Login to heroku
         run: heroku container:login
       - name: Push docker container
-        run: heroku container:push web -a kevinowens #Change with your heroku-app name
+        run: heroku container:push web -a todo-java-22-1 #Change with your heroku-app name
       - name: Deploy docker container
-        run: heroku container:release web -a kevinowens #Change with your heroku-app name
+        run: heroku container:release web -a todo-java-22-1 #Change with your heroku-app name
