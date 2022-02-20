@@ -12,11 +12,12 @@ public enum Status {
         this.status = status;
     }
 
-    public void advance(){
+    public Status advance(){
         if (this.status.equals(OPEN.status)){
-            status = IN_PROGRESS.status;
+            return IN_PROGRESS;
         } else if (status.equals(IN_PROGRESS.status)){
-            status = DONE.status;
+            return DONE;
         }
+        return null;
     }
 }
