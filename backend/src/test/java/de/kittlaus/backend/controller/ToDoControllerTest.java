@@ -1,18 +1,18 @@
 package de.kittlaus.backend.controller;
 
-import de.kittlaus.backend.model.ListOfToDoItems;
 import de.kittlaus.backend.model.Status;
 import de.kittlaus.backend.model.ToDoItem;
-import org.junit.jupiter.api.MethodOrderer;
-import org.junit.jupiter.api.Order;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestMethodOrder;
+import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.Objects;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -32,13 +32,15 @@ class ToDoControllerTest {
     final private ToDoItem toDoItem1 = new ToDoItem("Wäsche waschen");
     final private ToDoItem toDoItem2 = new ToDoItem("Tests schreiben");
 
+
+
     @Test
     @Order(1)
-    void shouldAddNewTodo(){
+    void should1AddNewTodo(){
         //GIVEN
 
         //WHEN
-        ResponseEntity<ToDoItem> actualResponse = testRestTemplate.postForEntity("/todo", toDoItem1, ToDoItem.class);
+        ResponseEntity<ToDoItem> actualResponse = testRestTemplate.postForEntity("/api/todo", toDoItem1, ToDoItem.class);
         //THEN
         assertEquals(HttpStatus.OK,actualResponse.getStatusCode());
         ToDoItem actual = actualResponse.getBody();
@@ -47,61 +49,73 @@ class ToDoControllerTest {
 
     @Test
     @Order(2)
-    void shouldReturnAllToDos(){
+    void shouldDeleteToDoByID(){
         //GIVEN
-        testRestTemplate.postForEntity("/todo", toDoItem2, ToDoItem.class);
+        String url = "/api/todo/"+toDoItem1.getId();
         //WHEN
-        ResponseEntity<ListOfToDoItems> actualResponse = testRestTemplate.getForEntity("/todo", ListOfToDoItems.class);
+        testRestTemplate.delete(url);
+        ResponseEntity<ToDoItem[]> actualResponse = testRestTemplate.getForEntity("/api/todo", ToDoItem[].class);
         //THEN
         assertEquals(HttpStatus.OK,actualResponse.getStatusCode());
-        ListOfToDoItems actual = actualResponse.getBody();
-        assert actual != null;
-        assertTrue(actual.getList().contains(toDoItem1));
-        assertTrue(actual.getList().contains(toDoItem2));
+        List<ToDoItem> actual = Arrays.stream(Objects.requireNonNull(actualResponse.getBody())).toList();
+        System.out.println("LÄNGE ==="+actual.size());
+        assertFalse(actual.contains(toDoItem1));
     }
+
+
 
     @Test
     @Order(3)
+    void shouldReturnAllToDos(){
+        //GIVEN
+        testRestTemplate.postForEntity("/api/todo", toDoItem2, ToDoItem.class);
+        testRestTemplate.postForEntity("/api/todo", toDoItem1, ToDoItem.class);
+        //WHEN
+        ResponseEntity<ToDoItem[]> actualResponse = testRestTemplate.getForEntity("/api/todo", ToDoItem[].class);
+        //THEN
+        assertEquals(HttpStatus.OK,actualResponse.getStatusCode());
+        List<ToDoItem> actual = Arrays.stream(Objects.requireNonNull(actualResponse.getBody())).toList();
+        System.out.println(actual.size());
+        assertTrue(actual.contains(toDoItem1));
+        assertTrue(actual.contains(toDoItem2));
+    }
+
+
+
+    @Test
+    @Order(4)
     void shouldReturnToDoByID(){
         //GIVEN
-        String url = "/todo/"+toDoItem1.getId();
+        ResponseEntity<ToDoItem[]> allTodosResponse = testRestTemplate.getForEntity("/api/todo", ToDoItem[].class);
+        String id = allTodosResponse.getBody()[0].getId();
+        ToDoItem expected = allTodosResponse.getBody()[0];
+        String url = "/api/todo/"+id;
         //WHEN
+
         ResponseEntity<ToDoItem> actualResponse = testRestTemplate.getForEntity(url,ToDoItem.class);
         //THEN
         assertEquals(HttpStatus.OK,actualResponse.getStatusCode());
         ToDoItem actual = actualResponse.getBody();
-        assertEquals(toDoItem1,actual);
+        assertEquals(expected,actual);
     }
 
+
     @Test
-    @Order(4)
+    @Order(5)
     void shouldAdvanceToDo(){
         //GIVEN
-        String url = "/todo/"+toDoItem1.getId();
-        ToDoItem advancedItem = toDoItem1;
-        advancedItem.setStatus(advancedItem.getStatus().advance());
+        ToDoItem testItem = testRestTemplate.getForEntity("/api/todo", ToDoItem[].class).getBody()[0];
+        String url = "/api/todo/"+testItem.getId();
         //WHEN
-        testRestTemplate.put(url,toDoItem1);
+        testRestTemplate.patchForObject("/api/todo",testItem,ToDoItem.class);
         ResponseEntity<ToDoItem> actualResponse = testRestTemplate.getForEntity(url, ToDoItem.class);
         //THEN
         assertEquals(HttpStatus.OK,actualResponse.getStatusCode());
         ToDoItem actual = actualResponse.getBody();
-        assertEquals(advancedItem,actual);
+        assertEquals(actual.getStatus(), Status.IN_PROGRESS);
     }
 
-    @Test
-    @Order(5)
-    void shouldDeleteToDoByID(){
-        //GIVEN
-        String url = "/todo/"+toDoItem1.getId();
-        //WHEN
-        testRestTemplate.delete(url);
-        ResponseEntity<ListOfToDoItems> actualResponse = testRestTemplate.getForEntity("/todo", ListOfToDoItems.class);
-        //THEN
-        assertEquals(HttpStatus.OK,actualResponse.getStatusCode());
-        ListOfToDoItems actual = actualResponse.getBody();
-        assert actual != null;
-        assertFalse(actual.getList().contains(toDoItem1));
-    }
+
+
 
 }

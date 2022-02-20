@@ -17,12 +17,11 @@ class ToDoServiceTest {
         //GIVEN
         ToDoItem testItem = new ToDoItem("Tests schreiben");
         ToDoRepo toDoRepoMock = mock(ToDoRepo.class);
-        when(toDoRepoMock.addToDo(toDoRepoMock)).thenReturn(testItem);
+        when(toDoRepoMock.addToDo(testItem)).thenReturn(testItem);
         ToDoService testService = new ToDoService(toDoRepoMock);
         //WHEN
         ToDoItem actual = testService.saveNewToDo(testItem);
         //THEN
-        verify(toDoRepoMock.addToDo(toDoRepoMock));
         assertEquals(testItem,actual);
     }
 
@@ -38,7 +37,6 @@ class ToDoServiceTest {
         //WHEN
         List<ToDoItem> actual = testService.returnAllToDos();
         //THEN
-        verify(toDoRepoMock.returnAll());
         assertEquals(toDoItemList,actual);
     }
 
@@ -53,7 +51,6 @@ class ToDoServiceTest {
         //WHEN
         ToDoItem actual = testService.findToDoById(id);
         //THEN
-        verify(toDoRepoMock.findByID(id));
         assertEquals(testItem,actual);
     }
 
@@ -65,9 +62,13 @@ class ToDoServiceTest {
         when(toDoRepoMock.findByID("unknown")).thenReturn(Optional.empty());
         ToDoService testService = new ToDoService(toDoRepoMock);
         //WHEN
-
-        //THEN
-        assertThrows(testService.findToDoById("unknown"),IllegalArgumentException.class);
+        try {
+            testService.findToDoById("unknown");
+            fail();
+        } catch (IllegalArgumentException e){
+            //THEN
+            assertEquals("No ToDo found with ID: unknown",e.getMessage());
+        }
     }
 
     @Test
@@ -83,7 +84,6 @@ class ToDoServiceTest {
         //WHEN
         ToDoItem actual = testService.advanceToDo(testItem);
         //THEN
-        verify(toDoRepoMock.updateToDo(advancedItem));
         assertEquals(advancedItem,actual);
     }
 
@@ -96,9 +96,8 @@ class ToDoServiceTest {
         when(toDoRepoMock.removeToDo(id)).thenReturn(testItem);
         ToDoService testService = new ToDoService(toDoRepoMock);
         //WHEN
-        ToDoItem actual = testService.deleteToDo(testItem);
+        ToDoItem actual = testService.deleteToDo(testItem.getId());
         //THEN
-        verify(toDoRepoMock.removeToDo(id));
         assertEquals(testItem,actual);
     }
 

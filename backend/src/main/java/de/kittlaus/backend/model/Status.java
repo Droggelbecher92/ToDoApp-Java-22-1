@@ -12,6 +12,18 @@ public enum Status {
         this.status = status;
     }
 
+    Status() {
+        status = "OPEN";
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
     public Status advance(){
         if (this.status.equals(OPEN.status)){
             return IN_PROGRESS;

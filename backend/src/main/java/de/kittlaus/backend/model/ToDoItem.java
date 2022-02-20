@@ -8,7 +8,7 @@ import java.util.UUID;
 
 public class ToDoItem {
 
-    private final String id;
+    private String id;
     private String text;
     private Status status;
 
@@ -18,9 +18,10 @@ public class ToDoItem {
         status = Status.OPEN;
     }
 
-    public ToDoItem() {
-        id = UUID.randomUUID().toString();
-        status = Status.OPEN;
+    public ToDoItem(String id, String text, Status status) {
+        this.id = id;
+        this.text = text;
+        this.status = status;
     }
 
     public String getId() {
