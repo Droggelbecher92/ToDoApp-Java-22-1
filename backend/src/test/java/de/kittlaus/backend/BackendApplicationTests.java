@@ -1,4 +1,4 @@
-package de.neuefische.backend;
+package de.kittlaus.backend;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
