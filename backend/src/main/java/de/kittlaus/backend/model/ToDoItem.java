@@ -12,7 +12,6 @@ import java.util.UUID;
 
 @Data
 @AllArgsConstructor
-@NoArgsConstructor
 public class ToDoItem {
 
     private String id;
@@ -22,5 +21,10 @@ public class ToDoItem {
 
     public ToDoItem(String task) {
         this.task = task;
+    }
+
+    public ToDoItem() {
+        id = UUID.randomUUID().toString();
+        status = Status.OPEN;
     }
 }

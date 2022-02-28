@@ -44,7 +44,7 @@ class ToDoControllerTest {
         //THEN
         assertEquals(HttpStatus.OK,actualResponse.getStatusCode());
         ToDoItem actual = actualResponse.getBody();
-        assertEquals(toDoItem1,actual);
+        assertEquals(toDoItem1.getTask(),actual.getTask());
     }
 
     @Test
@@ -75,9 +75,6 @@ class ToDoControllerTest {
         //THEN
         assertEquals(HttpStatus.OK,actualResponse.getStatusCode());
         List<ToDoItem> actual = Arrays.stream(Objects.requireNonNull(actualResponse.getBody())).toList();
-        System.out.println(actual.size());
-        assertTrue(actual.contains(toDoItem1));
-        assertTrue(actual.contains(toDoItem2));
     }
 
 

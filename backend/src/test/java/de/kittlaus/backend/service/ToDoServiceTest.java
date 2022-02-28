@@ -1,5 +1,6 @@
 package de.kittlaus.backend.service;
 
+import de.kittlaus.backend.model.Status;
 import de.kittlaus.backend.model.ToDoItem;
 import de.kittlaus.backend.repo.ToDoRepo;
 import org.junit.jupiter.api.Test;
@@ -75,6 +76,7 @@ class ToDoServiceTest {
     void shouldAdvanceToDoByID(){
         //GIVEN
         ToDoItem testItem = new ToDoItem("Tests schreiben");
+        testItem.setStatus(Status.OPEN);
         ToDoItem advancedItem = testItem;
         advancedItem.setStatus(advancedItem.getStatus().advance());
         String id = testItem.getId();
