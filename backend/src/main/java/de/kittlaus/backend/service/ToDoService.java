@@ -32,9 +32,8 @@ public class ToDoService {private final ToDoRepo toDoRepo;
     }
 
     public ToDoItem advanceToDo(ToDoItem itemToChange) {
-        ToDoItem advancedItem = itemToChange;
-        advancedItem.setStatus(advancedItem.getStatus().advance());
-        return toDoRepo.updateToDo(advancedItem);
+        itemToChange.setStatus(itemToChange.getStatus().advance());
+        return toDoRepo.updateToDo(itemToChange);
     }
 
     public ToDoItem deleteToDo(String idToDelete) {
@@ -43,7 +42,7 @@ public class ToDoService {private final ToDoRepo toDoRepo;
 
     public ToDoItem updateToDo(ToDoItem changedItem) {
         if (toDoRepo.findByID(changedItem.getId()).isPresent()){
-            toDoRepo.addToDo(changedItem);
+            toDoRepo.updateToDo(changedItem);
         }
         return changedItem;
     }

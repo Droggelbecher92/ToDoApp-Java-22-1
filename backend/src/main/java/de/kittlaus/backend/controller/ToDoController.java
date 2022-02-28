@@ -38,8 +38,8 @@ public class ToDoController {private final ToDoService toDoService;
     }
 
     @DeleteMapping("/{id}")
-    public ToDoItem deleteToDoById(@PathVariable String idToDelete){
-        return toDoService.deleteToDo(idToDelete);
+    public ToDoItem deleteToDoById(@PathVariable String id){
+        return toDoService.deleteToDo(id);
     }
 
     @PutMapping("/{id}")
