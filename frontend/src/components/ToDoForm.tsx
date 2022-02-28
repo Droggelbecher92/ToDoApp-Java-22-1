@@ -30,7 +30,7 @@ export default function ToDoForm({update}: ToDoFormProps){
         <div className={'toDoForm'}>
             <form onSubmit={ev => createToDo(ev)}>
                 <input className={'form_task'} type="text" placeholder={'ToDo'} value={task} onChange={ev => handleTaskChange(ev.target.value)}/>
-                <textarea className={'form_desc'} rows={5} placeholder={'Beschreibung'} value={description} onChange={ev => handleDescriptionChange(ev.target.value)}/>
+                <input className={'form_desc'} placeholder={'Beschreibung'} value={description} onChange={ev => handleDescriptionChange(ev.target.value)}/>
                 <button className={'form_btn'} type='submit' >senden</button>
             </form>
         </div>

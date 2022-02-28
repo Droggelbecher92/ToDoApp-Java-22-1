@@ -17,7 +17,6 @@ export default function ToDoGallery(){
     if (todos.length<1){
         return (<div>
             <ToDoForm update={setTodos}/>
-            <h2>loading or empty</h2>
         </div>)
     }
 
