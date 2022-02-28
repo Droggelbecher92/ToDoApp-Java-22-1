@@ -20,9 +20,9 @@ export default function ToDoGallery(){
 
     return(
          <div className={'toDoGallery'}>
-                <ToDoColumn key={'OPEN'} state={'Offen'} items={todos.filter(item => item.status=='OPEN')}/>
-                <ToDoColumn key={'IN_PROGRESS'} state={'In arbeit'} items={todos.filter(item => item.status=='IN_PROGRESS')}/>
-                <ToDoColumn key={'DONE'} state={'Fertig'} items={todos.filter(item => item.status=='DONE')}/>
+                <ToDoColumn key={'OPEN'} update={setTodos} state={'Offen'} items={todos.filter(item => item.status=='OPEN')}/>
+                <ToDoColumn key={'IN_PROGRESS'} update={setTodos} state={'In arbeit'} items={todos.filter(item => item.status=='IN_PROGRESS')}/>
+                <ToDoColumn key={'DONE'} update={setTodos} state={'Fertig'} items={todos.filter(item => item.status=='DONE')}/>
          </div>
     )
 }
