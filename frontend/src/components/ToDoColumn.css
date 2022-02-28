@@ -1,0 +1,11 @@
+.toDoColumn {
+    background-color: bisque;
+    border: solid 2px blanchedalmond;
+    border-radius: 10px;
+    margin: 1rem 1rem 0;
+    height: 100%;
+}
+.col_text {
+    text-align: center;
+    text-decoration-line: underline;
+}
