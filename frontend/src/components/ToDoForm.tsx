@@ -1,4 +1,5 @@
 import {FormEvent, useState} from "react";
+import {postNewToDo} from "../service/apiService";
 
 export default function ToDoForm(){
 
@@ -7,21 +8,14 @@ export default function ToDoForm(){
 
     const handleTaskChange = (text : string)  => setTask(text)
     const handleDescriptionChange = (text : string)  => setDescription(text)
+
     const createToDo = (event : FormEvent<HTMLFormElement>) => {
         event.preventDefault()
-        fetch(`http://localhost:8080/api/todo`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({'task':task, 'description':description})
-        })
-            .then(response => response.json())
+        postNewToDo(task, description)
             .then(() => {
                 setDescription('')
                 setTask('')
             })
-            .catch(e => console.log(e.message))
     }
 
 
