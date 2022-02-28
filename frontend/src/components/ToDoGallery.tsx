@@ -12,7 +12,6 @@ export default function ToDoGallery(){
     useEffect(()=>{
         getAllTodos()
             .then(data => setTodos(data))
-            .then(() => console.log(todos))
     }, [])
 
     if (todos.length<1){
@@ -26,9 +25,9 @@ export default function ToDoGallery(){
          <div>
              <ToDoForm update={setTodos}/>
              <div className={'toDoGallery'}>
-                 <ToDoColumn key={'OPEN'} update={setTodos} state={'Offen'} items={todos.filter(item => item.status=='OPEN')}/>
-                 <ToDoColumn key={'IN_PROGRESS'} update={setTodos} state={'In arbeit'} items={todos.filter(item => item.status=='IN_PROGRESS')}/>
-                 <ToDoColumn key={'DONE'} update={setTodos} state={'Fertig'} items={todos.filter(item => item.status=='DONE')}/>
+                 <ToDoColumn key={'OPEN'} update={setTodos} state={'Offen'} items={todos.filter(item => item.status==='OPEN')}/>
+                 <ToDoColumn key={'IN_PROGRESS'} update={setTodos} state={'In arbeit'} items={todos.filter(item => item.status==='IN_PROGRESS')}/>
+                 <ToDoColumn key={'DONE'} update={setTodos} state={'Fertig'} items={todos.filter(item => item.status==='DONE')}/>
              </div>
          </div>
     )

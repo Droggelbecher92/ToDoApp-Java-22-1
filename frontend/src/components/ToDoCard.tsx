@@ -1,6 +1,7 @@
 import {ToDoItem} from "../service/models";
 import {advanceTodo, deleteTodo, getAllTodos, updateTodo} from "../service/apiService";
 import {Dispatch, SetStateAction} from "react";
+import './TodoCard.css'
 
 interface ToDoCardProps{
     infos : ToDoItem
@@ -35,11 +36,13 @@ export default function ToDoCard({infos, update} : ToDoCardProps){
 
     return(
         <div className={'toDoCard'}>
-            <h2>{infos.task}</h2>
-            <p>{infos.description}</p>
-            <button onClick={()=>statusRevert()}>{infos.status==='OPEN'?'Löschen':'Zurück'}</button>
-            <button>Bearbeiten</button>
-            <button onClick={()=>nextStatus()}>{infos.status==='DONE'?'Löschen':'Weiter'}</button>
+            <h2 className={'card_task'}>{infos.task}</h2>
+            <p className={'card_text'}>{infos.description}</p>
+            <div className={'card_btn'}>
+                <button onClick={()=>statusRevert()}>{infos.status==='OPEN'?'<Löschen':'<Zurück'}</button>
+                <button>Bearbeiten</button>
+                <button onClick={()=>nextStatus()}>{infos.status==='DONE'?'Löschen>':'Weiter>'}</button>
+            </div>
         </div>
     )
 }

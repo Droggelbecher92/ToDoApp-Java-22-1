@@ -1,0 +1,26 @@
+.toDoCard{
+    border: solid 3px wheat;
+    border-radius: 10px;
+    background-color: blanchedalmond;
+    margin: 0.5rem;
+}
+
+.card_task{
+    text-align: center;
+}
+
+.card_text{
+    margin: 0.5rem;
+}
+
+.card_btn{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 1rem;
+    margin: 0 0.5rem 0.5rem;
+}
+
+.card_btn > button {
+    background-color: wheat;
+    border-radius: 5px;
+}
