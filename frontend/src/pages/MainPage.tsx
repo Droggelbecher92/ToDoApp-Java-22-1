@@ -6,7 +6,6 @@ export default function MainPage(){
     return(
         <div className={'main'}>
             <Header/>
-            <ToDoForm/>
             <ToDoGallery/>
         </div>
     )

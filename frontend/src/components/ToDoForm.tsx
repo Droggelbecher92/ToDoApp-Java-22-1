@@ -1,7 +1,12 @@
-import {FormEvent, useState} from "react";
-import {postNewToDo} from "../service/apiService";
+import {Dispatch, FormEvent, SetStateAction, useState} from "react";
+import {getAllTodos, postNewToDo} from "../service/apiService";
+import {ToDoItem} from "../service/models";
 
-export default function ToDoForm(){
+interface ToDoFormProps{
+    update : Dispatch<SetStateAction<ToDoItem[]>>
+}
+
+export default function ToDoForm({update}: ToDoFormProps){
 
     const [task, setTask] = useState('');
     const [description, setDescription] = useState('');
@@ -15,7 +20,9 @@ export default function ToDoForm(){
             .then(() => {
                 setDescription('')
                 setTask('')
-            })
+            }).then(()=>
+            getAllTodos()
+                .then(data => update(data)))
     }
 
     return(
