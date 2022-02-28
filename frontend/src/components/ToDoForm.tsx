@@ -18,8 +18,6 @@ export default function ToDoForm(){
             })
     }
 
-
-
     return(
         <div className={'toDoForm'}>
             <form onSubmit={ev => createToDo(ev)}>

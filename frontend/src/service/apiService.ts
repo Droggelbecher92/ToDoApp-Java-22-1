@@ -1,3 +1,8 @@
+export const getAllTodos = () => {
+    return fetch(`http://localhost:8080/api/todo`)
+        .then(response => response.json())
+}
+
 export const postNewToDo = (task: string, descript: string) => {
     return fetch(`http://localhost:8080/api/todo`, {
         method: 'POST',
