@@ -99,23 +99,4 @@ class ToDoControllerTest {
         assertEquals(expected,actual);
     }
 
-
-    @Test
-    @Order(5)
-    void shouldAdvanceToDo(){
-        //GIVEN
-        ToDoItem testItem = testRestTemplate.getForEntity("/api/todo", ToDoItem[].class).getBody()[0];
-        String url = "/api/todo/"+testItem.getId();
-        //WHEN
-        testRestTemplate.patchForObject("/api/todo",testItem,ToDoItem.class);
-        ResponseEntity<ToDoItem> actualResponse = testRestTemplate.getForEntity(url, ToDoItem.class);
-        //THEN
-        assertEquals(HttpStatus.OK,actualResponse.getStatusCode());
-        ToDoItem actual = actualResponse.getBody();
-        assertEquals(actual.getStatus(), Status.IN_PROGRESS);
-    }
-
-
-
-
 }

@@ -7,25 +7,44 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
-/*
-        ToDo: - Methode um alle ToDoItems vom Repo zu erhalten
-        ToDo: - Methode um ein ToDoItem nach ID vom Repo zu erhalten
-        ToDo: - Methode um ein neues ToDoItem im repo zu speichern
-        ToDo: - Methode um den Status eines ToDoItems auf den nächsten Status zu setzen und dann abzuspeichern
-        ToDo: - Methode um ein ToDoItem aus dem Repo zu löschen
-        ToDo: - Achte auf Möglichkeiten für Optionals und exceptions!
-         */
 
 @Service
-public class ToDoService {
-
-    private final ToDoRepo toDoRepo;
+public class ToDoService {private final ToDoRepo toDoRepo;
 
 
     public ToDoService(ToDoRepo toDoRepo) {
         this.toDoRepo = toDoRepo;
     }
 
+    public List<ToDoItem> returnAllToDos() {
+        return toDoRepo.returnAll();
+    }
 
+    public ToDoItem saveNewToDo(ToDoItem itemtoAdd) {
+        itemtoAdd.setId(UUID.randomUUID().toString());
+        return toDoRepo.addToDo(itemtoAdd);
+    }
+
+    public ToDoItem findToDoById(String id) {
+        return toDoRepo.findByID(id).orElseThrow(() -> new IllegalArgumentException("No ToDo found with ID: "+id));
+    }
+
+    public ToDoItem advanceToDo(ToDoItem itemToChange) {
+        ToDoItem advancedItem = itemToChange;
+        advancedItem.setStatus(advancedItem.getStatus().advance());
+        return toDoRepo.updateToDo(advancedItem);
+    }
+
+    public ToDoItem deleteToDo(String idToDelete) {
+        return toDoRepo.removeToDo(idToDelete);
+    }
+
+    public ToDoItem updateToDo(ToDoItem changedItem) {
+        if (toDoRepo.findByID(changedItem.getId()).isPresent()){
+            toDoRepo.addToDo(changedItem);
+        }
+        return changedItem;
+    }
 }

@@ -8,18 +8,32 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 
-/*
-        ToDo: - Wähle eine passende Collection
-        ToDo: - Methode für alle ToDoItems
-        ToDo: - Methode für ToDoItem nach ID
-        ToDo: - Methode zum speichern eines ToDoItem
-        ToDo: - Methode zum Überschreiben eines ToDoItem
-        ToDo: - Methode zum löschen eines ToDoItem
-        ToDo: - Eventuell kann man zwei dieser Aufgaben auf mit einer Methode lösen
-         */
 
 @Repository
 public class ToDoRepo {
 
+    private final HashMap<String, ToDoItem> allTodos = new HashMap<>();
+
+    public List<ToDoItem> returnAll() {
+        return allTodos.values().stream().toList();
+    }
+
+    public ToDoItem addToDo(ToDoItem itemtoAdd) {
+        allTodos.put(itemtoAdd.getId(),itemtoAdd);
+        return itemtoAdd;
+    }
+
+    public Optional<ToDoItem> findByID(String id) {
+        return Optional.ofNullable(allTodos.get(id));
+    }
+
+    public ToDoItem updateToDo(ToDoItem advancedItem) {
+        allTodos.put(advancedItem.getId(),advancedItem);
+        return advancedItem;
+    }
+
+    public ToDoItem removeToDo(String idToDelete) {
+        return allTodos.remove(idToDelete);
+    }
 
 }
