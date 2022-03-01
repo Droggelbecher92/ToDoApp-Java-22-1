@@ -1,6 +1,6 @@
 import {ToDoItem} from "../service/models";
 import {advanceTodo, deleteTodo, getAllTodos, updateTodo} from "../service/apiService";
-import {Dispatch, SetStateAction} from "react";
+import {Dispatch, FormEvent, SetStateAction, useState} from "react";
 import './TodoCard.css'
 
 interface ToDoCardProps{
@@ -9,6 +9,10 @@ interface ToDoCardProps{
 }
 
 export default function ToDoCard({infos, update} : ToDoCardProps){
+
+    const [task , setTask] = useState(infos.task)
+    const [desc, setDesc] = useState(infos.description)
+    const [editor, setEditor] = useState(false)
 
     const statusRevert = () => {
         if (infos.status ==='OPEN'){
@@ -34,15 +38,44 @@ export default function ToDoCard({infos, update} : ToDoCardProps){
                 .then(data => update(data)))
     }
 
-    return(
-        <div className={'toDoCard'}>
-            <h2 className={'card_task'}>{infos.task}</h2>
-            <p className={'card_text'}>{infos.description}</p>
-            <div className={'card_btn'}>
-                <button onClick={()=>statusRevert()}>{infos.status==='OPEN'?'<Löschen':'<Zurück'}</button>
-                <button>Bearbeiten</button>
-                <button onClick={()=>nextStatus()}>{infos.status==='DONE'?'Löschen>':'Weiter>'}</button>
+    const changeToDo = (ev : FormEvent<HTMLFormElement>) =>{
+        ev.preventDefault()
+        updateTodo(infos.id, {
+            id : infos.id,
+            task: task,
+            description : desc,
+            status:  infos.status
+        }
+        )
+            .then(()=>
+                getAllTodos()
+                    .then(data => update(data)))
+            .catch(e => console.log('Blöd...'))
+        setEditor(false)
+    }
+
+    return(<div>
+        { editor
+            ?
+            <form onSubmit={ev =>changeToDo(ev)} className={'toDoCard'}>
+                <input type={'text'} className={'card_task'} value={task} onChange={ev => setTask(ev.target.value)}/>
+                <input type={'text'} className={'card_text'} value={desc} onChange={ev => setDesc(ev.target.value)}/>
+                <div className={'card_btn'}>
+                    <button onClick={() => statusRevert()} disabled>{infos.status === 'OPEN' ? '<Löschen' : '<Zurück'}</button>
+                    <button>Absenden</button>
+                    <button onClick={() => nextStatus()} disabled>{infos.status === 'DONE' ? 'Löschen>' : 'Weiter>'}</button>
+                </div>
+            </form>
+            :
+            <div className={'toDoCard'}>
+                <h2 className={'card_task'}>{infos.task}</h2>
+                <p className={'card_text'}>{infos.description}</p>
+                <div className={'card_btn'}>
+                    <button onClick={() => statusRevert()}>{infos.status === 'OPEN' ? '<Löschen' : '<Zurück'}</button>
+                    <button onClick={() => setEditor(true)}>Bearbeiten</button>
+                    <button onClick={() => nextStatus()}>{infos.status === 'DONE' ? 'Löschen>' : 'Weiter>'}</button>
+                </div>
             </div>
-        </div>
-    )
+        }
+    </div>)
 }
