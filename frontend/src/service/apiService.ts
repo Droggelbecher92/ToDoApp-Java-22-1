@@ -41,6 +41,50 @@ export const updateTodo = (id: string, todo : ToDoItem) => {
         .catch(e => console.log(e.message))
 }
 
+
+
+
+
+
+
+export const getToDoById = (id : string) => {
+     return fetch(`${process.env.REACT_APP_BASE_URL}/api/todo/${id}`)
+        .then(response => {
+            if (response.ok){
+              return response.json()
+            } else {
+                throw Error("Kein ToDo mit der id "+id+" gefunden!")
+            }
+        })
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 export const deleteTodo = (id: string) => {
     return fetch(`${process.env.REACT_APP_BASE_URL}/api/todo/${id}`,{
         method: 'DELETE',
@@ -51,3 +95,4 @@ export const deleteTodo = (id: string) => {
         .then(response => response.json())
         .catch(e => console.log(e.message))
 }
+
