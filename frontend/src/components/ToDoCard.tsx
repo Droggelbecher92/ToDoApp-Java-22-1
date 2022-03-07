@@ -68,12 +68,12 @@ export default function ToDoCard({infos, update} : ToDoCardProps){
             </form>
             :
             <div className={'toDoCard'}>
-                <h2 className={'card_task'}>{infos.task}</h2>
-                <p className={'card_text'}>{infos.description}</p>
+                <h2 data-testid="the-task" className={'card_task'}>{infos.task}</h2>
+                <p data-testid="the-desc" className={'card_text'}>{infos.description}</p>
                 <div className={'card_btn'}>
-                    <button onClick={() => statusRevert()}>{infos.status === 'OPEN' ? '<Löschen' : '<Zurück'}</button>
+                    <button data-testid="btn-back" onClick={() => statusRevert()}>{infos.status === 'OPEN' ? '<Löschen' : '<Zurück'}</button>
                     <button onClick={() => setEditor(true)}>Bearbeiten</button>
-                    <button onClick={() => nextStatus()}>{infos.status === 'DONE' ? 'Löschen>' : 'Weiter>'}</button>
+                    <button data-testid="btn-next" onClick={() => nextStatus()}>{infos.status === 'DONE' ? 'Löschen>' : 'Weiter>'}</button>
                 </div>
             </div>
         }

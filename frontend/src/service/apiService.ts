@@ -1,12 +1,12 @@
 import {ToDoItem} from "./models";
 
 export const getAllTodos = () => {
-    return fetch(`http://localhost:8080/api/todo`)
+    return fetch(`${process.env.REACT_APP_BASE_URL}/api/todo`)
         .then(response => response.json())
 }
 
 export const postNewToDo = (task: string, descript: string) => {
-    return fetch(`http://localhost:8080/api/todo`, {
+    return fetch(`${process.env.REACT_APP_BASE_URL}/api/todo`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -18,7 +18,7 @@ export const postNewToDo = (task: string, descript: string) => {
 }
 
 export const advanceTodo = (todo : ToDoItem) => {
-    return fetch(`http://localhost:8080/api/todo`,{
+    return fetch(`${process.env.REACT_APP_BASE_URL}/api/todo`,{
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json'
@@ -30,7 +30,7 @@ export const advanceTodo = (todo : ToDoItem) => {
 }
 
 export const updateTodo = (id: string, todo : ToDoItem) => {
-    return fetch(`http://localhost:8080/api/todo/${id}`,{
+    return fetch(`${process.env.REACT_APP_BASE_URL}/api/todo/${id}`,{
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json'
@@ -42,7 +42,7 @@ export const updateTodo = (id: string, todo : ToDoItem) => {
 }
 
 export const deleteTodo = (id: string) => {
-    return fetch(`http://localhost:8080/api/todo/${id}`,{
+    return fetch(`${process.env.REACT_APP_BASE_URL}/api/todo/${id}`,{
         method: 'DELETE',
         headers: {
             'Content-Type': 'application/json'
