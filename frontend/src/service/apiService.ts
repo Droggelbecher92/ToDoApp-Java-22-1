@@ -41,12 +41,6 @@ export const updateTodo = (id: string, todo : ToDoItem) => {
         .catch(e => console.log(e.message))
 }
 
-
-
-
-
-
-
 export const getToDoById = (id : string) => {
      return fetch(`${process.env.REACT_APP_BASE_URL}/api/todo/${id}`)
         .then(response => {
