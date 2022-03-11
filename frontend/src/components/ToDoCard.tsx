@@ -2,6 +2,7 @@ import {ToDoItem} from "../service/models";
 import {advanceTodo, deleteTodo, getAllTodos, updateTodo} from "../service/apiService";
 import {Dispatch, FormEvent, SetStateAction, useState} from "react";
 import './TodoCard.css'
+import {useNavigate} from "react-router-dom";
 
 interface ToDoCardProps{
     infos : ToDoItem
@@ -13,6 +14,7 @@ export default function ToDoCard({infos, update} : ToDoCardProps){
     const [task , setTask] = useState(infos.task)
     const [desc, setDesc] = useState(infos.description)
     const [editor, setEditor] = useState(false)
+    const nav = useNavigate()
 
     const statusRevert = () => {
         if (infos.status ==='OPEN'){
@@ -30,6 +32,10 @@ export default function ToDoCard({infos, update} : ToDoCardProps){
                 getAllTodos()
                     .then(data => update(data)))
         }
+    }
+
+    const toDetails = () => {
+        nav(`/${infos.id}`)
     }
 
     const nextStatus = () => {
@@ -54,7 +60,7 @@ export default function ToDoCard({infos, update} : ToDoCardProps){
         setEditor(false)
     }
 
-    return(<div>
+    return(<div onClick={() => toDetails()}>
         { editor
             ?
             <form onSubmit={ev =>changeToDo(ev)} className={'toDoCard'}>

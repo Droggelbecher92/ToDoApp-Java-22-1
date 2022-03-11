@@ -18,7 +18,7 @@ class ToDoServiceTest {
         //GIVEN
         ToDoItem testItem = new ToDoItem("Tests schreiben");
         ToDoRepo toDoRepoMock = mock(ToDoRepo.class);
-        when(toDoRepoMock.addToDo(testItem)).thenReturn(testItem);
+        when(toDoRepoMock.save(testItem)).thenReturn(testItem);
         ToDoService testService = new ToDoService(toDoRepoMock);
         //WHEN
         ToDoItem actual = testService.saveNewToDo(testItem);
@@ -33,7 +33,7 @@ class ToDoServiceTest {
         ToDoItem testItem2 = new ToDoItem("An die frische Luft gehen!");
         List<ToDoItem> toDoItemList = List.of(testItem,testItem2);
         ToDoRepo toDoRepoMock = mock(ToDoRepo.class);
-        when(toDoRepoMock.returnAll()).thenReturn(toDoItemList);
+        when(toDoRepoMock.findAll()).thenReturn(toDoItemList);
         ToDoService testService = new ToDoService(toDoRepoMock);
         //WHEN
         List<ToDoItem> actual = testService.returnAllToDos();
@@ -47,7 +47,7 @@ class ToDoServiceTest {
         ToDoItem testItem = new ToDoItem("Tests schreiben");
         String id = testItem.getId();
         ToDoRepo toDoRepoMock = mock(ToDoRepo.class);
-        when(toDoRepoMock.findByID(id)).thenReturn(Optional.of(testItem));
+        when(toDoRepoMock.findById(id)).thenReturn(Optional.of(testItem));
         ToDoService testService = new ToDoService(toDoRepoMock);
         //WHEN
         ToDoItem actual = testService.findToDoById(id);
@@ -60,7 +60,7 @@ class ToDoServiceTest {
         //GIVEN
         ToDoItem testItem = new ToDoItem("Tests schreiben");
         ToDoRepo toDoRepoMock = mock(ToDoRepo.class);
-        when(toDoRepoMock.findByID("unknown")).thenReturn(Optional.empty());
+        when(toDoRepoMock.findById("unknown")).thenReturn(Optional.empty());
         ToDoService testService = new ToDoService(toDoRepoMock);
         //WHEN
         try {
@@ -81,7 +81,7 @@ class ToDoServiceTest {
         advancedItem.setStatus(advancedItem.getStatus().advance());
         String id = testItem.getId();
         ToDoRepo toDoRepoMock = mock(ToDoRepo.class);
-        when(toDoRepoMock.updateToDo(advancedItem)).thenReturn(advancedItem);
+        when(toDoRepoMock.save(advancedItem)).thenReturn(advancedItem);
         ToDoService testService = new ToDoService(toDoRepoMock);
         //WHEN
         ToDoItem actual = testService.advanceToDo(testItem);
@@ -95,11 +95,12 @@ class ToDoServiceTest {
         ToDoItem testItem = new ToDoItem("Tests schreiben");
         String id = testItem.getId();
         ToDoRepo toDoRepoMock = mock(ToDoRepo.class);
-        when(toDoRepoMock.removeToDo(id)).thenReturn(testItem);
+        when(toDoRepoMock.findById(id)).thenReturn(Optional.of(testItem));
         ToDoService testService = new ToDoService(toDoRepoMock);
         //WHEN
         ToDoItem actual = testService.deleteToDo(testItem.getId());
         //THEN
+        verify(toDoRepoMock).delete(testItem);
         assertEquals(testItem,actual);
     }
 

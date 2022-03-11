@@ -4,6 +4,7 @@ import {ToDoItem} from "../service/models";
 import {useParams} from "react-router-dom";
 import TodoDetail from "../components/TodoDetail";
 import {getToDoById} from "../service/apiService";
+import NavBar from "../components/NavBar";
 
 export default function DetailsPage(){
 
@@ -24,6 +25,7 @@ export default function DetailsPage(){
 
     return(
         <div className={'detailsPage'}>
+            <NavBar/>
             <Header/>
             {error && <h1>{error}</h1>}
             {currentTodo

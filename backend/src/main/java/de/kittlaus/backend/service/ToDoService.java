@@ -19,30 +19,32 @@ public class ToDoService {private final ToDoRepo toDoRepo;
     }
 
     public List<ToDoItem> returnAllToDos() {
-        return toDoRepo.returnAll();
+        return toDoRepo.findAll();
     }
 
     public ToDoItem saveNewToDo(ToDoItem itemtoAdd) {
-        itemtoAdd.setId(UUID.randomUUID().toString());
-        return toDoRepo.addToDo(itemtoAdd);
+        return toDoRepo.save(itemtoAdd);
     }
 
     public ToDoItem findToDoById(String id) {
-        return toDoRepo.findByID(id).orElseThrow(() -> new IllegalArgumentException("No ToDo found with ID: "+id));
+        return toDoRepo.findById(id).orElseThrow(() -> new IllegalArgumentException("No ToDo found with ID: "+id));
     }
 
     public ToDoItem advanceToDo(ToDoItem itemToChange) {
         itemToChange.setStatus(itemToChange.getStatus().advance());
-        return toDoRepo.updateToDo(itemToChange);
+        return toDoRepo.save(itemToChange);
     }
 
     public ToDoItem deleteToDo(String idToDelete) {
-        return toDoRepo.removeToDo(idToDelete);
+        Optional<ToDoItem> optToDo = toDoRepo.findById(idToDelete);
+        ToDoItem toDoItem = optToDo.orElseThrow(() -> new IllegalArgumentException("No ToDo found with ID: " + idToDelete));
+        toDoRepo.delete(toDoItem);
+        return toDoItem;
     }
 
     public ToDoItem updateToDo(ToDoItem changedItem) {
-        if (toDoRepo.findByID(changedItem.getId()).isPresent()){
-            toDoRepo.updateToDo(changedItem);
+        if (toDoRepo.findById(changedItem.getId()).isPresent()){
+            toDoRepo.save(changedItem);
         }
         return changedItem;
     }
