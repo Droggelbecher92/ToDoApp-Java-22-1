@@ -1,4 +1,4 @@
-package de.kittlaus.backend.repo;
+package de.kittlaus.backend.todo;
 
 
 import de.kittlaus.backend.model.ToDoItem;
@@ -13,5 +13,7 @@ import java.util.Optional;
 @Repository
 public interface ToDoRepo extends MongoRepository<ToDoItem,String> {
 
+    public List<ToDoItem> findAllByUser(String user);
+    public Optional<ToDoItem> findByIdAndUser(String id, String user);
 
 }

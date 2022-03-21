@@ -18,6 +18,7 @@ public class ToDoItem {
     private String task;
     private String description;
     private Status status;
+    private String user;
 
     public ToDoItem(String task) {
         this.task = task;

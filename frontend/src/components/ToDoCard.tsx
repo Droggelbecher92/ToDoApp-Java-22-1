@@ -3,6 +3,7 @@ import {advanceTodo, deleteTodo, getAllTodos, updateTodo} from "../service/apiSe
 import {Dispatch, FormEvent, SetStateAction, useState} from "react";
 import './TodoCard.css'
 import {useNavigate} from "react-router-dom";
+import {useAuth} from "../auth/AuthProvider";
 
 interface ToDoCardProps{
     infos : ToDoItem
@@ -15,21 +16,22 @@ export default function ToDoCard({infos, update} : ToDoCardProps){
     const [desc, setDesc] = useState(infos.description)
     const [editor, setEditor] = useState(false)
     const nav = useNavigate()
+    const {token} = useAuth()
 
     const statusRevert = () => {
         if (infos.status ==='OPEN'){
-            deleteTodo(infos.id).then(()=>
-                getAllTodos()
+            deleteTodo(infos.id, token).then(()=>
+                getAllTodos(token)
                 .then(data => update(data)))
         } else if (infos.status ==='DONE') {
             infos.status='IN_PROGRESS'
-            updateTodo(infos.id,infos).then(()=>
-                getAllTodos()
+            updateTodo(infos.id,infos,token).then(()=>
+                getAllTodos(token)
                     .then(data => update(data)))
         } else {
             infos.status='OPEN'
-            updateTodo(infos.id,infos).then(()=>
-                getAllTodos()
+            updateTodo(infos.id,infos,token).then(()=>
+                getAllTodos(token)
                     .then(data => update(data)))
         }
     }
@@ -39,8 +41,8 @@ export default function ToDoCard({infos, update} : ToDoCardProps){
     }
 
     const nextStatus = () => {
-        advanceTodo(infos).then(()=>
-            getAllTodos()
+        advanceTodo(infos, token).then(()=>
+            getAllTodos(token)
                 .then(data => update(data)))
     }
 
@@ -51,10 +53,10 @@ export default function ToDoCard({infos, update} : ToDoCardProps){
             task: task,
             description : desc,
             status:  infos.status
-        }
+        }, token
         )
             .then(()=>
-                getAllTodos()
+                getAllTodos(token)
                     .then(data => update(data)))
             .catch(e => console.log('Blöd...'))
         setEditor(false)
