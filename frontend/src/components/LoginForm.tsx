@@ -45,7 +45,7 @@ export default function LoginForm(){
                 <input type="text" placeholder={'Nutzername'} value={registerUsername} onChange={ev => setRegisterUsername(ev.target.value)}/>
                 <input type='password' placeholder={'Passwort'} value={registerPasswordOne} onChange={ev => setRegisterPasswordOne(ev.target.value)}/>
                 <input type='password' placeholder={'Passwort wiederholen'} value={registerPasswordTwo} onChange={ev => setRegisterPasswordTwo(ev.target.value)}/>
-                <button type={'submit'}>Login</button>
+                <button type={'submit'}>Register</button>
             </form>
             {error && <h2>{error}</h2>}
         </div>
