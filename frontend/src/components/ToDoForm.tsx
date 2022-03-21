@@ -2,6 +2,7 @@ import {Dispatch, FormEvent, SetStateAction, useState} from "react";
 import {getAllTodos, postNewToDo} from "../service/apiService";
 import {ToDoItem} from "../service/models";
 import './ToDoForm.css'
+import {useAuth} from "../auth/AuthProvider";
 
 interface ToDoFormProps{
     update : Dispatch<SetStateAction<ToDoItem[]>>
@@ -14,15 +15,16 @@ export default function ToDoForm({update}: ToDoFormProps){
 
     const handleTaskChange = (text : string)  => setTask(text)
     const handleDescriptionChange = (text : string)  => setDescription(text)
+    const {token} = useAuth()
 
     const createToDo = (event : FormEvent<HTMLFormElement>) => {
         event.preventDefault()
-        postNewToDo(task, description)
+        postNewToDo(task, description, token)
             .then(() => {
                 setDescription('')
                 setTask('')
             }).then(()=>
-            getAllTodos()
+            getAllTodos(token)
                 .then(data => update(data)))
     }
 

@@ -4,6 +4,7 @@ package de.kittlaus.backend.todo;
 import de.kittlaus.backend.model.ToDoItem;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.List;
 
 
@@ -17,18 +18,18 @@ public class ToDoController {private final ToDoService toDoService;
     }
 
     @GetMapping
-    public List<ToDoItem> getAllTodos(){
-        return toDoService.returnAllToDos();
+    public List<ToDoItem> getAllTodos(Principal principal){
+        return toDoService.returnAllToDos(principal);
     }
 
     @PostMapping
-    public ToDoItem postNewToDo(@RequestBody ToDoItem itemtoAdd){
-        return toDoService.saveNewToDo(itemtoAdd);
+    public ToDoItem postNewToDo(@RequestBody ToDoItem itemtoAdd, Principal principal){
+        return toDoService.saveNewToDo(itemtoAdd, principal);
     }
 
     @GetMapping("/{id}")
-    public ToDoItem getToDoById(@PathVariable String id){
-        return toDoService.findToDoById(id);
+    public ToDoItem getToDoById(@PathVariable String id, Principal principal){
+        return toDoService.findToDoById(id, principal);
     }
 
     @PutMapping()
@@ -37,8 +38,8 @@ public class ToDoController {private final ToDoService toDoService;
     }
 
     @DeleteMapping("/{id}")
-    public ToDoItem deleteToDoById(@PathVariable String id){
-        return toDoService.deleteToDo(id);
+    public ToDoItem deleteToDoById(@PathVariable String id, Principal principal){
+        return toDoService.deleteToDo(id, principal);
     }
 
     @PutMapping("/{id}")

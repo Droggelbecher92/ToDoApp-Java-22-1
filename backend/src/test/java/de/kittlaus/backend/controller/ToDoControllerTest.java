@@ -1,14 +1,12 @@
 package de.kittlaus.backend.controller;
 
-import de.kittlaus.backend.model.Status;
 import de.kittlaus.backend.model.ToDoItem;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.web.server.LocalServerPort;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 
 import java.util.Arrays;
 import java.util.List;
@@ -32,6 +30,10 @@ class ToDoControllerTest {
     final private ToDoItem toDoItem1 = new ToDoItem("Wäsche waschen");
     final private ToDoItem toDoItem2 = new ToDoItem("Tests schreiben");
 
+    final HttpHeaders headers = new HttpHeaders();
+    headers.set("User-Agent", "eltabo");
+
+
 
 
     @Test
@@ -40,7 +42,8 @@ class ToDoControllerTest {
         //GIVEN
 
         //WHEN
-        ResponseEntity<ToDoItem> actualResponse = testRestTemplate.postForEntity("/api/todo", toDoItem1, ToDoItem.class);
+        HttpEntity<> myEntity = new HttpEntity(toDoItem1,)
+        ResponseEntity<ToDoItem> actualResponse = testRestTemplate.exchange("/api/todo", HttpMethod.POST, toDoItem1, ToDoItem.class);
         //THEN
         assertEquals(HttpStatus.OK,actualResponse.getStatusCode());
         ToDoItem actual = actualResponse.getBody();

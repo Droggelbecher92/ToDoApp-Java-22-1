@@ -4,18 +4,20 @@ import {ToDoItem} from "../service/models";
 import './ToDoGallery.css'
 import ToDoColumn from "./ToDoColumn";
 import ToDoForm from "./ToDoForm";
+import {useAuth} from "../auth/AuthProvider";
 
 export default function ToDoGallery(){
     const [todos, setTodos] = useState([] as Array<ToDoItem>)
     const [error, setError] = useState('')
+    const {token} = useAuth()
 
 
     useEffect(()=>{
         setError('')
-        getAllTodos()
+        getAllTodos(token)
             .then(data => setTodos(data))
             .catch(e => setError(e.message))
-    }, [])
+    }, [token])
 
     if (todos.length<1){
         return (<div>

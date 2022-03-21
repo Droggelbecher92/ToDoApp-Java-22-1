@@ -13,5 +13,7 @@ import java.util.Optional;
 @Repository
 public interface ToDoRepo extends MongoRepository<ToDoItem,String> {
 
+    public List<ToDoItem> findAllByUser(String user);
+    public Optional<ToDoItem> findByIdAndUser(String id, String user);
 
 }

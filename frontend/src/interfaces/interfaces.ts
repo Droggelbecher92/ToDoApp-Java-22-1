@@ -8,3 +8,9 @@ export interface CredentialsRegister {
     password : string,
     passwordAgain : string
 }
+
+export interface AuthInterface {
+    token : string,
+    login : (username: string, password: string) => Promise<void>,
+    logout: () => void
+}

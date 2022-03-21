@@ -6,6 +6,7 @@ import de.kittlaus.backend.todo.ToDoRepo;
 import de.kittlaus.backend.todo.ToDoService;
 import org.junit.jupiter.api.Test;
 
+import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
 
@@ -13,6 +14,13 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 class ToDoServiceTest {
+
+    Principal testPrincipal = new Principal() {
+        @Override
+        public String getName() {
+            return "Test";
+        }
+    };
 
     @Test
     void shouldAddNewTodo(){
@@ -22,7 +30,7 @@ class ToDoServiceTest {
         when(toDoRepoMock.save(testItem)).thenReturn(testItem);
         ToDoService testService = new ToDoService(toDoRepoMock);
         //WHEN
-        ToDoItem actual = testService.saveNewToDo(testItem);
+        ToDoItem actual = testService.saveNewToDo(testItem, testPrincipal);
         //THEN
         assertEquals(testItem,actual);
     }
@@ -34,10 +42,10 @@ class ToDoServiceTest {
         ToDoItem testItem2 = new ToDoItem("An die frische Luft gehen!");
         List<ToDoItem> toDoItemList = List.of(testItem,testItem2);
         ToDoRepo toDoRepoMock = mock(ToDoRepo.class);
-        when(toDoRepoMock.findAll()).thenReturn(toDoItemList);
+        when(toDoRepoMock.findAllByUser("Test")).thenReturn(toDoItemList);
         ToDoService testService = new ToDoService(toDoRepoMock);
         //WHEN
-        List<ToDoItem> actual = testService.returnAllToDos();
+        List<ToDoItem> actual = testService.returnAllToDos(testPrincipal);
         //THEN
         assertEquals(toDoItemList,actual);
     }
@@ -48,10 +56,10 @@ class ToDoServiceTest {
         ToDoItem testItem = new ToDoItem("Tests schreiben");
         String id = testItem.getId();
         ToDoRepo toDoRepoMock = mock(ToDoRepo.class);
-        when(toDoRepoMock.findById(id)).thenReturn(Optional.of(testItem));
+        when(toDoRepoMock.findByIdAndUser(id, "Test")).thenReturn(Optional.of(testItem));
         ToDoService testService = new ToDoService(toDoRepoMock);
         //WHEN
-        ToDoItem actual = testService.findToDoById(id);
+        ToDoItem actual = testService.findToDoById(id,testPrincipal);
         //THEN
         assertEquals(testItem,actual);
     }
@@ -61,11 +69,11 @@ class ToDoServiceTest {
         //GIVEN
         ToDoItem testItem = new ToDoItem("Tests schreiben");
         ToDoRepo toDoRepoMock = mock(ToDoRepo.class);
-        when(toDoRepoMock.findById("unknown")).thenReturn(Optional.empty());
+        when(toDoRepoMock.findByIdAndUser("unknown","Test")).thenReturn(Optional.empty());
         ToDoService testService = new ToDoService(toDoRepoMock);
         //WHEN
         try {
-            testService.findToDoById("unknown");
+            testService.findToDoById("unknown",testPrincipal);
             fail();
         } catch (IllegalArgumentException e){
             //THEN
@@ -96,10 +104,10 @@ class ToDoServiceTest {
         ToDoItem testItem = new ToDoItem("Tests schreiben");
         String id = testItem.getId();
         ToDoRepo toDoRepoMock = mock(ToDoRepo.class);
-        when(toDoRepoMock.findById(id)).thenReturn(Optional.of(testItem));
+        when(toDoRepoMock.findByIdAndUser(id, "Test")).thenReturn(Optional.of(testItem));
         ToDoService testService = new ToDoService(toDoRepoMock);
         //WHEN
-        ToDoItem actual = testService.deleteToDo(testItem.getId());
+        ToDoItem actual = testService.deleteToDo(testItem.getId(),testPrincipal);
         //THEN
         verify(toDoRepoMock).delete(testItem);
         assertEquals(testItem,actual);

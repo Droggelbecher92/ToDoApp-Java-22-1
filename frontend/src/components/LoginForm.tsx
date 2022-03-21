@@ -1,5 +1,6 @@
 import {FormEvent, useState} from "react";
 import {registerNewUser} from "../service/apiService";
+import {useAuth} from "../auth/AuthProvider";
 
 export default function LoginForm(){
     const [loginUsername, setLoginUsername] = useState('')
@@ -9,8 +10,14 @@ export default function LoginForm(){
     const [registerPasswordTwo, setRegisterPasswordTwo] = useState('')
     const [error, setError] = useState('')
 
+    const auth = useAuth()
+
+
     const handleLogin = (event : FormEvent) => {
         event.preventDefault()
+        setError('')
+        auth.login(loginUsername, loginPassword)
+            .catch(er => setError(er.message))
     }
 
     const handleRegister = (event : FormEvent) => {
