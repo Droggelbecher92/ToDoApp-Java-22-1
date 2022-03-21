@@ -2,7 +2,7 @@ import {ToDoItem} from "./models";
 import {Credentials, CredentialsRegister} from "../interfaces/interfaces";
 
 export const registerNewUser = ({username, password, passwordAgain} : CredentialsRegister) => {
-    return fetch(`${process.env.REACT_APP_BASE_URL}/api/user`,{
+    return fetch(`/api/user`,{
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -13,7 +13,7 @@ export const registerNewUser = ({username, password, passwordAgain} : Credential
 }
 
 export const loginUser = ({username, password} : Credentials) =>{
-    return fetch(`${process.env.REACT_APP_BASE_URL}/auth`,{
+    return fetch(`/auth`,{
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -24,7 +24,7 @@ export const loginUser = ({username, password} : Credentials) =>{
 }
 
 export const getAllTodos = (token: string) => {
-    return fetch(`${process.env.REACT_APP_BASE_URL}/api/todo`,{
+    return fetch(`/api/todo`,{
         headers: {
             Authorization: `Bearer ${token}`
         },
@@ -33,7 +33,7 @@ export const getAllTodos = (token: string) => {
 }
 
 export const postNewToDo = (task: string, descript: string, token: string) => {
-    return fetch(`${process.env.REACT_APP_BASE_URL}/api/todo`, {
+    return fetch(`/api/todo`, {
         method: 'POST',
         headers: {
             Authorization: `Bearer ${token}`,
@@ -46,7 +46,7 @@ export const postNewToDo = (task: string, descript: string, token: string) => {
 }
 
 export const advanceTodo = (todo : ToDoItem, token: string) => {
-    return fetch(`${process.env.REACT_APP_BASE_URL}/api/todo`,{
+    return fetch(`/api/todo`,{
         method: 'PUT',
         headers: {
             Authorization: `Bearer ${token}`,
@@ -59,7 +59,7 @@ export const advanceTodo = (todo : ToDoItem, token: string) => {
 }
 
 export const updateTodo = (id: string, todo : ToDoItem, token: string) => {
-    return fetch(`${process.env.REACT_APP_BASE_URL}/api/todo/${id}`,{
+    return fetch(`/api/todo/${id}`,{
         method: 'PUT',
         headers: {
             Authorization: `Bearer ${token}`,
@@ -72,7 +72,7 @@ export const updateTodo = (id: string, todo : ToDoItem, token: string) => {
 }
 
 export const getToDoById = (id : string, token: string) => {
-     return fetch(`${process.env.REACT_APP_BASE_URL}/api/todo/${id}`,{
+     return fetch(`/api/todo/${id}`,{
          headers: {
              Authorization: `Bearer ${token}`
          }
@@ -87,7 +87,7 @@ export const getToDoById = (id : string, token: string) => {
 }
 
 export const deleteTodo = (id: string, token: string) => {
-    return fetch(`${process.env.REACT_APP_BASE_URL}/api/todo/${id}`,{
+    return fetch(`/api/todo/${id}`,{
         method: 'DELETE',
         headers: {
             Authorization: `Bearer ${token}`,
