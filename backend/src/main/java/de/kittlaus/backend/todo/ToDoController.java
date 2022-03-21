@@ -1,8 +1,7 @@
-package de.kittlaus.backend.controller;
+package de.kittlaus.backend.todo;
 
 
 import de.kittlaus.backend.model.ToDoItem;
-import de.kittlaus.backend.service.ToDoService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

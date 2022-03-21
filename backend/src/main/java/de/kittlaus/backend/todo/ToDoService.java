@@ -1,13 +1,12 @@
-package de.kittlaus.backend.service;
+package de.kittlaus.backend.todo;
 
 
 import de.kittlaus.backend.model.ToDoItem;
-import de.kittlaus.backend.repo.ToDoRepo;
+import de.kittlaus.backend.todo.ToDoRepo;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 
 @Service

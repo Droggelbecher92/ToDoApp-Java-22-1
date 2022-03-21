@@ -1,4 +1,16 @@
 import {ToDoItem} from "./models";
+import {CredentialsRegister} from "../interfaces/interfaces";
+
+export const registerNewUser = ({username, password, passwordAgain} : CredentialsRegister) => {
+    return fetch(`${process.env.REACT_APP_BASE_URL}/api/user`,{
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({'username':username, 'password':password, 'passwordAgain':passwordAgain})
+    })
+        .then(response => response.json())
+}
 
 export const getAllTodos = () => {
     return fetch(`${process.env.REACT_APP_BASE_URL}/api/todo`)
@@ -51,33 +63,6 @@ export const getToDoById = (id : string) => {
             }
         })
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 export const deleteTodo = (id: string) => {
     return fetch(`${process.env.REACT_APP_BASE_URL}/api/todo/${id}`,{

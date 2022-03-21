@@ -2,7 +2,8 @@ package de.kittlaus.backend.service;
 
 import de.kittlaus.backend.model.Status;
 import de.kittlaus.backend.model.ToDoItem;
-import de.kittlaus.backend.repo.ToDoRepo;
+import de.kittlaus.backend.todo.ToDoRepo;
+import de.kittlaus.backend.todo.ToDoService;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;

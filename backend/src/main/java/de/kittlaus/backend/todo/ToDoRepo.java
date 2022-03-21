@@ -1,4 +1,4 @@
-package de.kittlaus.backend.repo;
+package de.kittlaus.backend.todo;
 
 
 import de.kittlaus.backend.model.ToDoItem;
