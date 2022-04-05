@@ -17,7 +17,7 @@ export default function LoginForm(){
         event.preventDefault()
         setError('')
         auth.login(loginUsername, loginPassword)
-            .catch(er => setError(er.message))
+            .catch(er => setError(er.response.message))
     }
 
     const handleRegister = (event : FormEvent) => {
@@ -27,7 +27,14 @@ export default function LoginForm(){
             setError('Passwörter nicht gleich')
         } else {
             registerNewUser({username: registerUsername, password: registerPasswordOne, passwordAgain: registerPasswordTwo})
-                .catch(er => setError(er.message))
+                .catch(er => {
+                    if (er.status === 400){
+                        console.log("kdaljshg")
+                        setError('Anmeldedaten ungültig')
+                    } else {
+                        setError("Etwas ist schief gelaufen")
+                    }
+                    })
         }
     }
 

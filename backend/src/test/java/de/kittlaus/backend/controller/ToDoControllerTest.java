@@ -58,6 +58,7 @@ class ToDoControllerTest {
         ResponseEntity<Token> tokenResponseEntity = testRestTemplate.postForEntity("/auth", user, Token.class);
         String token = tokenResponseEntity.getBody().getToken();
         //WHEN
+
         testRestTemplate.delete(url);
         ResponseEntity<ToDoItem[]> actualResponse = testRestTemplate.exchange("/api/todo",
                 HttpMethod.GET,
