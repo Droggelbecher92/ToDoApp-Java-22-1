@@ -13,4 +13,10 @@ export interface AuthInterface {
     token : string,
     login : (username: string, password: string) => Promise<void>,
     logout: () => void
+    user: UserInterface
+}
+
+export interface UserInterface{
+    sub : string;
+    roles : Array<string>
 }
